@@ -6,6 +6,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Amplify } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
+import AuthContextProvider from "./src/Context/AuthContext";
 
 Amplify.configure({
   ...awsconfig, 
@@ -19,9 +20,9 @@ const App = () => {
     
     <NavigationContainer>
     <GestureHandlerRootView style={{flex:1}}>
-    {/* <BottomSheetModalProvider> */}
+    <AuthContextProvider>
     <Navigation />
-    {/* </BottomSheetModalProvider> */}
+    </AuthContextProvider>
       </GestureHandlerRootView>
       <StatusBar style="auto" />
     </NavigationContainer>

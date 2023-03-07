@@ -1,12 +1,29 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import { Entypo } from "@expo/vector-icons";
 import Orders from "../../data/orders.json";
+import { useNavigation } from "@react-navigation/native";
+import { Auth } from "aws-amplify";
+import { User } from "../../models";
+import { DataStore } from "aws-amplify";
+import { useState } from "react/cjs/react.production.min";
 
-const order = Orders[0];
+// const order = Orders[0];
 
 export default function OrderItem({ order }) {
+  const [users, setUsers] = useState([])
+  const getUsers = async() => {
+    const res = await DataStore(User, order.userID)
+    setUsers(res)
+  }
+  useEffect(()=>{
+    getUsers();
+  }, [])
+  console.log("users-->", users)
+
+  const navigation = useNavigation();
   return (
+    <View style={styles.container}>
     <View style={styles.row}>
       <Image
         source={{ uri: order.Restaurant.image }}
@@ -19,20 +36,29 @@ export default function OrderItem({ order }) {
         }}
       />
       <View style={styles.text_parent}>
-        <Text style={styles.rest_name}>{order.Restaurant.name}</Text>
-        <Text style={styles.rest_address}>{order.Restaurant.address}</Text>
+        <Text style={styles.rest_name}>{users?.name}</Text>
+        <Text style={styles.rest_address}>{users?.address}</Text>
         <Text style={styles.delivery_label}>Delivery Details: </Text>
-        <Text style={styles.user_name}>{order.User.name}</Text>
-        <Text style={styles.user_address}>{order.User.address}</Text>
+        <Text style={styles.user_name}>{users?.name}</Text>
+        <Text style={styles.user_address}>{users?.address}</Text>
       </View>
-      <TouchableOpacity activeOpacity={0.7} style={styles.check_parent}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.check_parent} onPress={()=>{
+        navigation.navigate("OrdersDeliveryScreen")
+        }}>
         <Entypo name="check" size={30} color="#fff" />
       </TouchableOpacity>
     </View>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
+  container:{
+    justifyContent:'center',
+    alignItems:'center',
+
+  },
   row: {
     borderWidth: 2,
     borderRadius: 12,
