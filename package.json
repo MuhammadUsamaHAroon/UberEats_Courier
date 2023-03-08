@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4",
     "@react-native-async-storage/async-storage": "^1.17.11",
@@ -16,7 +17,8 @@
     "@react-native-picker/picker": "^2.4.8",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
-    "aws-amplify": "^5.0.16",
+    "amazon-cognito-identity-js": "^6.1.2",
+    "aws-amplify": "^5.0.18",
     "aws-amplify-react-native": "^7.0.2",
     "expo": "~48.0.5",
     "expo-location": "~15.1.1",

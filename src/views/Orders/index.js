@@ -18,13 +18,18 @@ const Orders = () => {
   const snapPoints = useMemo(() => ["12%", "95%"], []);
 
   const getOrders = async() => {
+    try{
       const res = await DataStore.query(Order)
       setOrders(res)
+    }catch(e){
+      Alert.alert(e.message)
+    }
+     
   }
   useEffect(()=>{
     getOrders()
   })
-  console.log("orders--->", orders)
+  // console.log("orders--->", orders)
   return (
     <View style={{ backgroundColor: "lightblue", flex: 1 }}>
       <MapView
@@ -38,11 +43,11 @@ const Orders = () => {
         {orders.map((order) => (
           <Marker
             key={order.id}
-            title={order.Restaurant.name}
-            description={order.Restaurant.address}
+            title={order.Restaurant?.name}
+            description={order.Restaurant?.address}
             coordinate={{
-              latitude: order.Restaurant.lat,
-              longitude: order.Restaurant.lng,
+              latitude: order.Restaurant?.lat,
+              longitude: order.Restaurant?.lng,
             }}
           >
             <View

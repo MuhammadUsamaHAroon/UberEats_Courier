@@ -7,6 +7,7 @@ import { Amplify } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
 import AuthContextProvider from "./src/Context/AuthContext";
+import '@azure/core-asynciterator-polyfill'
 
 Amplify.configure({
   ...awsconfig, 

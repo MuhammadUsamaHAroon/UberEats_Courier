@@ -11,19 +11,19 @@ const Navigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="OrdersScreen"
+      // initialRouteName="OrdersScreen"
     >
       {dbCourier ? (
-       <Stack.Screen name="Profile" component={ProfileScreen} />
+       <>
+       <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
+       <Stack.Screen name="OrderDeliveryScreen" component={OrdersDeliveryScreen} />
+       <Stack.Screen
+         name="OrdersDeliveryScreen"
+         component={OrdersDeliveryScreen}
+       />
+     </>
       ) : (
-        
-        <>
-        <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
-        <Stack.Screen
-          name="OrdersDeliveryScreen"
-          component={OrdersDeliveryScreen}
-        />
-      </>
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       )}
     </Stack.Navigator>
   );

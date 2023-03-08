@@ -14,17 +14,21 @@ const AuthContextProvider = ({ children }) => {
     Auth.currentAuthenticatedUser({ bypassCache: true }).then(setAuthUser);
   }, []);
 
-  const  getExistCourier = async() => {
-    const fetchUser = await DataStore.query(Courier)
-    const getSubId = fetchUser.filter((item)=>item.sub==sub)
-    .then((couriers)=>console.log("getSubId-->", couriers))
-    .catch((e)=>console.log(e.message))
-  }
+  const getExistCourier = async () => {
+    try {
+      const fetchUser = await DataStore.query(Courier);
+      const getSubId = fetchUser.filter((item) => item.sub == sub);
+      setDbCourier(getSubId);
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
   useEffect(() => {
     getExistCourier();
   }, [sub]);
 
-  console.log(dbCourier);
+  console.log("dbCourierAuth--->", dbCourier);
 
   return (
     <AuthContext.Provider value={{ authUser, dbCourier, sub, setDbCourier }}>

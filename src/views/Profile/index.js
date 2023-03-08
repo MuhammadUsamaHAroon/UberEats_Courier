@@ -19,7 +19,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 export default function Profile() {
   const { sub, setDbCourier, dbCourier } = useAuthContext();
   const [name, setName] = useState(dbCourier?.name || "Name");
-  const [transportationModes, setTransPortationModes] = useState(
+  const [transportationMode, setTransportationMode] = useState(
     TransportationMode.DRIVING
   );
   console.log("profileDub-->", sub);
@@ -40,7 +40,7 @@ export default function Profile() {
       const courier = await DataStore.save(
         Courier.copyOf(dbCourier, (updated) => {
           updated.name = name;
-          updated.transportationMode = transportationModes;
+          updated.transportationMode = transportationMode;
         })
       );
       setDbCourier(courier);
@@ -50,15 +50,15 @@ export default function Profile() {
   };
 
   const createCourier = async () => {
-    console.log("hahaha");
+    console.log("save")
     try {
       const res = await DataStore.save(
         new Courier({
           name,
-          sub,
+           sub,
           lat: 0.45,
           lng: 0.29,
-          transportationModes,
+          transportationMode,
         })
       );
       console.log("PROFILECOURIER-->", res);
@@ -79,13 +79,13 @@ export default function Profile() {
       />
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => setTransPortationModes(TransportationMode.BICYCLING)}
+          onPress={() => setTransportationMode(TransportationMode.BICYCLING)}
           activeOpacity={0.7}
           style={{
             margin: 10,
             padding: 10,
             backgroundColor:
-              transportationModes === TransportationMode.BICYCLING
+              transportationMode === TransportationMode.BICYCLING
                 ? "#000"
                 : "#fff",
             borderRadius: 10,
@@ -101,20 +101,20 @@ export default function Profile() {
             name="motorcycle"
             size={39}
             color={
-              transportationModes === TransportationMode.BICYCLING
+              transportationMode === TransportationMode.BICYCLING
                 ? "#fff"
                 : "#000"
             }
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setTransPortationModes(TransportationMode.DRIVING)}
+          onPress={() => setTransportationMode(TransportationMode.DRIVING)}
           activeOpacity={0.6}
           style={{
             margin: 10,
             padding: 10,
             backgroundColor:
-              transportationModes === TransportationMode.DRIVING
+              transportationMode === TransportationMode.DRIVING
                 ? "#000"
                 : "#fff",
             borderRadius: 10,
@@ -130,7 +130,7 @@ export default function Profile() {
             name="car"
             size={40}
             color={
-              transportationModes === TransportationMode.DRIVING
+              transportationMode === TransportationMode.DRIVING
                 ? "#fff"
                 : "#000"
             }
