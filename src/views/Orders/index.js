@@ -1,7 +1,7 @@
 import { useRef, useMemo, useEffect, useState } from "react";
 import { View, Text, FlatList, useWindowDimensions, Alert } from "react-native";
 import BottomSheet, {BottomSheetFlatList} from "@gorhom/bottom-sheet";
-// import order from "../../data/orders.json";
+import order from "../../data/orders.json";
 import OrderItem from "../../components/OrderItem";
 import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
@@ -10,25 +10,22 @@ import { Order } from "../../models";
 import { DataStore } from "aws-amplify";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState([]);
+
+  // console.log("orders--->", orders);
   const bottomSheetRef = useRef(null);
   const { width, height } = useWindowDimensions();
   const navigation = useNavigation();
   
   const snapPoints = useMemo(() => ["12%", "95%"], []);
 
-  const getOrders = async() => {
-    try{
-      const res = await DataStore.query(Order)
-      setOrders(res)
-    }catch(e){
-      Alert.alert(e.message)
-    }
-     
-  }
-  useEffect(()=>{
-    getOrders()
-  })
+  // const getOrders = async() => {
+  //     const res = await DataStore.query(Order)
+  //     setOrders(res)
+  // }
+  // useEffect(()=>{
+  //   getOrders()
+  // }, [])
   // console.log("orders--->", orders)
   return (
     <View style={{ backgroundColor: "lightblue", flex: 1 }}>
@@ -37,10 +34,10 @@ const Orders = () => {
           height,
           width,
         }}
-        showsUserLocation
-        followsUserLocation
+   showsUserLocation
+   followsUserLocation
       >
-        {orders.map((order) => (
+        {order.map((order) => (
           <Marker
             key={order.id}
             title={order.Restaurant?.name}
@@ -71,11 +68,11 @@ const Orders = () => {
             You're Online
           </Text>
           <Text style={{ letterSpacing: 0.5, color: "grey" }}>
-            Available Orders: {orders.length}
+            Available Orders: {order.length}
           </Text>
         </View>
         <BottomSheetFlatList
-          data={orders}
+          data={order}
           renderItem={({ item }) => <OrderItem order={item} />}
         />
       </BottomSheet>

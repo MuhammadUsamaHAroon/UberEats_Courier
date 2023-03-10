@@ -11,17 +11,18 @@ import { DataStore } from "aws-amplify";
 
 export default function OrderItem({ order }) {
   const [users, setUsers] = useState([])
-  const getUsers = async() => {
-    try{
-      const res = await DataStore(User, order.userID)
+  console.log("user-->", users)
+  const id = 'ce924a97-7ba2-4be1-b05a-4566d519d3be'
+  console.log("orderID--->", order.userID)
+
+  const getUsers = async(id) => {
+      const res = await DataStore(User, order.userID);
+      const result = res.filter((item)=> order.userID == id)
       setUsers(res)
-    }catch(e){
-      console.log(e.message)
-    }
-    
-  }
+  } 
+
   useEffect(()=>{
-    // getUsers();
+    getUsers(id);
   }, [])
   // console.log("users-->", users)
 
@@ -43,11 +44,11 @@ export default function OrderItem({ order }) {
         <Text style={styles.rest_name}>{order?.Restaurant?.name}</Text>
         <Text style={styles.rest_address}>{order?.Restaurant?.address}</Text>
         <Text style={styles.delivery_label}>Delivery Details: </Text>
-        <Text style={styles.user_name}>{users?.name}</Text>
-        <Text style={styles.user_address}>{users?.address}</Text>
+        <Text style={styles.user_name}>{users.name}</Text>
+        <Text style={styles.user_address}>{users.address}</Text>
       </View>
       <TouchableOpacity activeOpacity={0.7} style={styles.check_parent} onPress={()=>{
-        navigation.navigate("Profile")
+        navigation.navigate("OrderDeliveryScreen")
         // Auth.signOut()
         }}>
         <Entypo name="check" size={30} color="#fff" />
